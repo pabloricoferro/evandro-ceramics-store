@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gabrieli Evandro | Ceramic Works</title>
+    <meta
+      name="description"
+      content="Contemporary ceramic works by Evandro Gabrieli. Filter by type and artist, discover and purchase unique pieces."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="container topbar-inner">
+        <a href="#" class="brand">
+          <span class="brand-mark"></span>
+          <span>GABRIELI EVANDRO</span>
+        </a>
+        <nav class="top-links">
+          <a href="#collection">Collection</a>
+          <a href="#studio">Studio</a>
+          <a href="#buy">Buy</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="container hero-grid">
+          <div class="hero-copy">
+            <p class="hero-kicker">Ceramic Art & Objects</p>
+            <h1>Textured forms, deep blues, and one-of-a-kind pieces.</h1>
+            <p>
+              A curated selection of Evandro Gabrieli ceramic works. Use filters
+              by piece type and artist as the catalog grows.
+            </p>
+            <a href="#collection" class="button">Explore Collection</a>
+          </div>
+          <div class="hero-photo-wrap">
+            <img
+              class="hero-photo"
+              src="./images/evandro-portrait.png"
+              alt="Portrait of Evandro Gabrieli"
+            />
+          </div>
+        </div>
+      </section>
+
+      <section id="collection" class="section container">
+        <div class="section-header">
+          <h2>Available Works</h2>
+          <p id="resultsCount">0 pieces</p>
+        </div>
+
+        <div class="filters" id="filters">
+          <label>
+            <span>Type of piece</span>
+            <select id="typeFilter"></select>
+          </label>
+          <label>
+            <span>Artist</span>
+            <select id="artistFilter"></select>
+          </label>
+        </div>
+
+        <div class="products-grid" id="productGrid"></div>
+        <p class="empty-state hidden" id="emptyState">
+          No pieces match these filters yet.
+        </p>
+      </section>
+
+      <section id="studio" class="studio">
+        <div class="container">
+          <h2>Studio Notes</h2>
+          <p>
+            This storefront is prepared for multiple artists, but currently shows
+            only Evandro Gabrieli works.
+          </p>
+        </div>
+      </section>
+
+      <section id="buy" class="section container buy-info">
+        <h2>How to add new products</h2>
+        <p>
+          Open <code>products.js</code> and add a new object to
+          <code>window.PRODUCTS</code> with
+          <code>title, artist, type, priceEUR, image, alt</code>. The page will
+          automatically include it and update filters. Store photos in
+          <code>images/</code> and use paths like <code>./images/name.png</code>.
+        </p>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <p>&copy; <span id="year"></span> Gabrieli Evandro Gallery & Studio</p>
+      </div>
+    </footer>
+
+    <script src="products.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
