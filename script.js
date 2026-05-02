@@ -6,6 +6,10 @@ let cartCount = 0;
 
 addToCartButtons.forEach((button) => {
   button.addEventListener("click", () => {
+    if (!cartCountEl) {
+      return;
+    }
+
     cartCount += 1;
     cartCountEl.textContent = String(cartCount);
 
@@ -20,4 +24,6 @@ addToCartButtons.forEach((button) => {
   });
 });
 
-yearEl.textContent = String(new Date().getFullYear());
+if (yearEl) {
+  yearEl.textContent = String(new Date().getFullYear());
+}
