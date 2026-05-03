@@ -308,7 +308,7 @@ h1 {
   margin: 0;
 }
 
-/* === Animación de entrada en About (figura -> UOMI) === */
+/* === Animación de entrada en About (figura -> letras UOMI verticales) === */
 .about-anim {
   position: relative;
   height: 220vh;
@@ -331,36 +331,29 @@ h1 {
   justify-content: center;
 }
 
-.about-anim-figure {
-  position: absolute;
-  top: 50%;
-  left: 50%;
+.about-anim-svg {
   width: auto;
-  height: 70vh;
-  color: #111;
-  opacity: var(--fig-op, 1);
-  transform: translate(-50%, -50%) scale(var(--fig-sc, 1));
-  filter: drop-shadow(0 18px 36px rgba(0, 0, 0, 0.18))
-    blur(var(--fig-blur, 0px));
-  will-change: transform, opacity, filter;
+  height: 96%;
+  max-width: 92vw;
+  display: block;
+  filter: drop-shadow(0 18px 36px rgba(0, 0, 0, 0.14));
 }
 
-.about-anim-text {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  font-family: Inter, Arial, sans-serif;
-  font-size: clamp(3.5rem, 18vw, 14rem);
-  font-weight: 800;
-  letter-spacing: 0.12em;
+.about-anim-svg .anim-figure {
   color: #111;
-  line-height: 1;
-  opacity: var(--text-op, 0);
-  transform: translate(-50%, -50%) scale(var(--text-sc, 0.6));
-  filter: blur(var(--text-blur, 18px));
-  white-space: nowrap;
-  pointer-events: none;
-  will-change: transform, opacity, filter;
+}
+
+.about-anim-svg text {
+  font-family: Inter, "Helvetica Neue", Arial, sans-serif;
+  font-size: 110px;
+  font-weight: 800;
+  fill: #111;
+  letter-spacing: 0;
+  paint-order: stroke;
+}
+
+.anim-letter {
+  opacity: 0;
 }
 
 .about-anim-hint {
@@ -388,16 +381,11 @@ h1 {
     height: auto;
     padding: 60px 0;
   }
-  .about-anim-figure {
+  .about-anim-svg .anim-figure {
     display: none;
   }
-  .about-anim-text {
-    position: relative;
-    transform: none;
-    top: auto;
-    left: auto;
+  .anim-letter {
     opacity: 1;
-    filter: none;
   }
   .about-anim-hint {
     display: none;

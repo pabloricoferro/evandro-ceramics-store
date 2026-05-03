@@ -40,14 +40,32 @@
         <div class="about-anim-sticky">
           <div class="about-anim-stage">
             <svg
-              class="about-anim-figure"
-              viewBox="0 0 100 140"
+              class="about-anim-svg"
+              viewBox="0 0 300 720"
               preserveAspectRatio="xMidYMid meet"
               aria-hidden="true"
             >
-              <use href="#f-stand" x="0" y="0" width="100" height="140" />
+              <!-- Figura completa: se desvanece a medida que las letras emergen -->
+              <g class="anim-figure">
+                <use href="#f-stand" x="100" y="70" width="100" height="140" />
+              </g>
+
+              <!-- Cada letra arranca en la posición de la parte del cuerpo que la genera
+                   (cabeza, torso superior, torso+brazos, pierna) y se desliza hacia su
+                   posición final apilada verticalmente formando UOMI. -->
+              <g class="anim-letter" data-from-y="92"  data-to-y="120" data-delay="0.06" data-duration="0.22">
+                <text x="0" y="0" text-anchor="middle" dominant-baseline="central">O</text>
+              </g>
+              <g class="anim-letter" data-from-y="125" data-to-y="280" data-delay="0.14" data-duration="0.26">
+                <text x="0" y="0" text-anchor="middle" dominant-baseline="central">U</text>
+              </g>
+              <g class="anim-letter" data-from-y="170" data-to-y="440" data-delay="0.22" data-duration="0.30">
+                <text x="0" y="0" text-anchor="middle" dominant-baseline="central">M</text>
+              </g>
+              <g class="anim-letter" data-from-y="200" data-to-y="600" data-delay="0.30" data-duration="0.34">
+                <text x="0" y="0" text-anchor="middle" dominant-baseline="central">I</text>
+              </g>
             </svg>
-            <div class="about-anim-text" aria-hidden="true">UOMI</div>
             <p class="about-anim-hint">Desliza hacia abajo</p>
           </div>
         </div>

@@ -33,10 +33,10 @@ if (yearEl) {
   if (!section) return;
 
   const sticky = section.querySelector(".about-anim-sticky");
-  const figure = section.querySelector(".about-anim-figure");
-  const text = section.querySelector(".about-anim-text");
+  const figure = section.querySelector(".anim-figure");
+  const letters = section.querySelectorAll(".anim-letter");
   const hint = section.querySelector(".about-anim-hint");
-  if (!sticky || !figure || !text) return;
+  if (!sticky || !figure || letters.length === 0) return;
 
   const reduceMotion =
     window.matchMedia &&
@@ -44,6 +44,18 @@ if (yearEl) {
   if (reduceMotion) return;
 
   const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+  const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
+
+  /* Cada letra guarda en sus data-* su Y inicial (la parte de la figura de la
+     que sale) y su Y final (su posición apilada en UOMI vertical), además del
+     delay y duración relativos al progreso global del scroll. */
+  const items = Array.from(letters).map((el) => ({
+    el,
+    fromY: parseFloat(el.dataset.fromY),
+    toY: parseFloat(el.dataset.toY),
+    delay: parseFloat(el.dataset.delay) || 0,
+    duration: parseFloat(el.dataset.duration) || 0.4,
+  }));
 
   function update() {
     const rect = section.getBoundingClientRect();
@@ -51,25 +63,26 @@ if (yearEl) {
     const scrolled = -rect.top;
     const p = clamp(scrolled / range, 0, 1);
 
-    /* Figura: 0.00 - 0.65 va desapareciendo, encogiendo y desenfocando */
-    const figProgress = clamp((p - 0.05) / 0.6, 0, 1);
-    const figOp = 1 - figProgress;
-    const figSc = 1 - figProgress * 0.5;
-    const figBlur = figProgress * 16;
+    /* Figura: visible hasta ~0.05, se desvanece rápido (hasta 0.25)
+       para no quedar solapada cuando aparezcan las letras. */
+    const figProgress = clamp((p - 0.05) / 0.2, 0, 1);
+    figure.setAttribute("opacity", String(1 - figProgress));
 
-    /* Texto UOMI: empieza a aparecer en 0.35 y queda nítido en 0.95 */
-    const textProgress = clamp((p - 0.35) / 0.6, 0, 1);
-    const textOp = textProgress;
-    const textSc = 0.55 + textProgress * 0.45;
-    const textBlur = (1 - textProgress) * 22;
+    items.forEach((item) => {
+      const localP = clamp((p - item.delay) / item.duration, 0, 1);
+      const eased = easeOutCubic(localP);
 
-    figure.style.setProperty("--fig-op", String(figOp));
-    figure.style.setProperty("--fig-sc", String(figSc));
-    figure.style.setProperty("--fig-blur", figBlur.toFixed(2) + "px");
+      const y = item.fromY + (item.toY - item.fromY) * eased;
+      const scale = 0.55 + 0.45 * eased;
+      const opacity = clamp(eased * 1.6, 0, 1);
 
-    text.style.setProperty("--text-op", String(textOp));
-    text.style.setProperty("--text-sc", String(textSc));
-    text.style.setProperty("--text-blur", textBlur.toFixed(2) + "px");
+      item.el.setAttribute(
+        "transform",
+        `translate(150 ${y.toFixed(2)}) scale(${scale.toFixed(3)})`
+      );
+      /* style.opacity gana sobre la regla CSS inicial (.anim-letter { opacity: 0 }) */
+      item.el.style.opacity = opacity.toFixed(3);
+    });
 
     if (hint) {
       hint.style.setProperty("--hint-op", p > 0.04 ? "0" : "1");
