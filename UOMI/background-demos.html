@@ -1,0 +1,794 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UOMI · Vista previa final del fondo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #ffffff;
+        --text: #1d1d1d;
+        --muted: #757575;
+        --border: #ededed;
+        --accent: #141414;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: Inter, system-ui, sans-serif;
+        color: var(--text);
+        background: #f4f4f4;
+        line-height: 1.5;
+      }
+
+      .page-intro {
+        max-width: min(820px, 92vw);
+        margin: 0 auto;
+        padding: 32px 20px 4px;
+      }
+
+      .page-intro h1 {
+        margin: 0 0 8px;
+        font-size: 1.7rem;
+        letter-spacing: -0.02em;
+      }
+
+      .page-intro p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      .figure-set {
+        max-width: min(820px, 92vw);
+        margin: 18px auto 0;
+        padding: 16px 20px;
+        background: #fff;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 8px;
+        align-items: end;
+        justify-items: center;
+      }
+
+      .figure-set svg {
+        width: 60px;
+        height: 120px;
+        color: #111;
+      }
+
+      .figure-set p {
+        grid-column: 1 / -1;
+        margin: 4px 0 0;
+        text-align: center;
+        font-size: 0.82rem;
+        color: var(--muted);
+      }
+
+      .preview {
+        width: min(1120px, 94vw);
+        margin: 28px auto 56px;
+      }
+
+      /* Mock site frame */
+      .site {
+        background: #fff;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        overflow: hidden;
+        box-shadow: 0 14px 40px rgba(0, 0, 0, 0.06);
+        margin-bottom: 26px;
+      }
+
+      .site-tab {
+        padding: 10px 16px;
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--muted);
+        background: #fafafa;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .topbar {
+        position: relative;
+        z-index: 2;
+        background: rgba(255, 255, 255, 0.92);
+        backdrop-filter: blur(8px);
+        border-bottom: 1px solid var(--border);
+      }
+
+      .nav {
+        max-width: 1120px;
+        width: 92%;
+        margin: 0 auto;
+        min-height: 64px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+
+      .brand {
+        text-decoration: none;
+        color: var(--text);
+        font-weight: 700;
+        letter-spacing: 0.08em;
+      }
+
+      .nav nav {
+        display: flex;
+        gap: 16px;
+        margin-left: auto;
+      }
+
+      .nav nav a {
+        color: var(--muted);
+        text-decoration: none;
+        font-weight: 500;
+      }
+
+      .cart-btn {
+        position: relative;
+        border: 1px solid var(--border);
+        background: #fff;
+        border-radius: 999px;
+        width: 38px;
+        height: 38px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+      }
+
+      .cart-count {
+        position: absolute;
+        top: -7px;
+        right: -7px;
+        min-width: 18px;
+        height: 18px;
+        border-radius: 999px;
+        background: #111;
+        color: #fff;
+        font-size: 0.7rem;
+        line-height: 18px;
+        text-align: center;
+        padding: 0 4px;
+      }
+
+      .page {
+        position: relative;
+        min-height: 360px;
+        padding: 36px 28px 44px;
+        overflow: hidden;
+      }
+
+      .page .bg {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+      }
+
+      .page .bg svg {
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+
+      .page .content {
+        position: relative;
+        z-index: 1;
+        max-width: 880px;
+        margin: 0 auto;
+      }
+
+      .kicker {
+        margin: 0 0 6px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        font-size: 0.78rem;
+        color: #8f8f8f;
+      }
+
+      h1 {
+        font-size: clamp(1.7rem, 3.4vw, 2.4rem);
+        line-height: 1.1;
+        margin: 0 0 14px;
+        letter-spacing: -0.02em;
+      }
+
+      h2 {
+        margin: 0 0 12px;
+        font-size: 1.35rem;
+      }
+
+      .lead {
+        max-width: 560px;
+        color: var(--muted);
+        margin: 0;
+      }
+
+      .cta {
+        display: inline-block;
+        margin-top: 22px;
+        padding: 11px 18px;
+        border-radius: 999px;
+        text-decoration: none;
+        font-weight: 700;
+        color: #fff;
+        background: var(--accent);
+      }
+
+      .grid {
+        margin-top: 22px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+      }
+
+      .card {
+        background: #fff;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 8px 22px rgba(0, 0, 0, 0.04);
+      }
+
+      .card .ph {
+        aspect-ratio: 4 / 5;
+        background: linear-gradient(180deg, #efefef, #e3e3e3);
+      }
+
+      .card-body {
+        padding: 12px;
+      }
+
+      .card-body h3 {
+        margin: 0 0 4px;
+        font-size: 1rem;
+      }
+
+      .card-body p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.86rem;
+      }
+
+      footer.site-foot {
+        background: #fff;
+        border-top: 1px solid var(--border);
+        padding: 14px 18px;
+        font-size: 0.82rem;
+        color: var(--muted);
+      }
+
+      @media (max-width: 720px) {
+        .grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .figure-set {
+          grid-template-columns: repeat(4, 1fr);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!--
+      Figuras UOMI con tus proporciones exactas (1 unidad = 10 px):
+        Cabeza: óvalo 2h x 1l            → ellipse rx=5 ry=10
+        Cuerpo: 6h x 3l, más ancho abajo → path 60 alto, ±14 abajo, más estrecho arriba
+        Brazo: 1 + 2 + 0.5 (10 + 20 + 5) → 3 segmentos
+        Pierna: 1.5 + 2.5 (15 + 25)      → 2 segmentos
+        Separación entre partes: 0.5     → ~5 px
+
+      Cada polyline está calculada con sin/cos a partir de un ángulo, garantizando
+      que las longitudes 10/20/5 (brazo) y 15/25 (pierna) se respetan en TODAS las poses.
+    -->
+    <svg
+      width="0"
+      height="0"
+      style="position: absolute"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <defs>
+        <!-- 1) PARADO RELAJADO -->
+        <symbol id="f-stand" viewBox="-50 -2 100 140" overflow="visible">
+          <ellipse cx="0" cy="10" rx="5" ry="10" fill="currentColor" />
+          <path
+            fill="currentColor"
+            d="M0 25 C6 25, 10 35, 11 50 C13 68, 14 85, 0 85 C-14 85, -13 68, -11 50 C-10 35, -6 25, 0 25 Z"
+          />
+          <g
+            fill="none"
+            stroke="currentColor"
+            stroke-width="3"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polyline points="14,32 16,42 19,62 20,67" />
+            <polyline points="-14,32 -16,42 -19,62 -20,67" />
+            <polyline points="6,90 6,105 6,130" />
+            <polyline points="-6,90 -6,105 -6,130" />
+          </g>
+        </symbol>
+
+        <!-- 2) BRAZOS ARRIBA -->
+        <symbol id="f-up" viewBox="-50 -10 100 150" overflow="visible">
+          <ellipse cx="0" cy="10" rx="5" ry="10" fill="currentColor" />
+          <path
+            fill="currentColor"
+            d="M0 25 C6 25, 10 35, 11 50 C13 68, 14 85, 0 85 C-14 85, -13 68, -11 50 C-10 35, -6 25, 0 25 Z"
+          />
+          <g
+            fill="none"
+            stroke="currentColor"
+            stroke-width="3"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polyline points="14,32 16,22 19,2 20,-3" />
+            <polyline points="-14,32 -16,22 -19,2 -20,-3" />
+            <polyline points="6,90 6,105 6,130" />
+            <polyline points="-6,90 -6,105 -6,130" />
+          </g>
+        </symbol>
+
+        <!-- 3) BRAZOS EN CRUZ -->
+        <symbol id="f-out" viewBox="-60 -2 120 140" overflow="visible">
+          <ellipse cx="0" cy="10" rx="5" ry="10" fill="currentColor" />
+          <path
+            fill="currentColor"
+            d="M0 25 C6 25, 10 35, 11 50 C13 68, 14 85, 0 85 C-14 85, -13 68, -11 50 C-10 35, -6 25, 0 25 Z"
+          />
+          <g
+            fill="none"
+            stroke="currentColor"
+            stroke-width="3"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polyline points="14,32 24,32 44,32 49,32" />
+            <polyline points="-14,32 -24,32 -44,32 -49,32" />
+            <polyline points="6,90 6,105 6,130" />
+            <polyline points="-6,90 -6,105 -6,130" />
+          </g>
+        </symbol>
+
+        <!-- 4) CAMINANDO (brazos sueltos, piernas en paso) -->
+        <symbol id="f-walk" viewBox="-50 -2 100 140" overflow="visible">
+          <ellipse cx="0" cy="10" rx="5" ry="10" fill="currentColor" />
+          <path
+            fill="currentColor"
+            d="M0 25 C6 25, 10 35, 11 50 C13 68, 14 85, 0 85 C-14 85, -13 68, -11 50 C-10 35, -6 25, 0 25 Z"
+          />
+          <g
+            fill="none"
+            stroke="currentColor"
+            stroke-width="3"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polyline points="14,32 16,42 19,62 20,67" />
+            <polyline points="-14,32 -16,42 -19,62 -20,67" />
+            <polyline points="6,90 12,104 14,129" />
+            <polyline points="-6,90 -9,105 -18,129" />
+          </g>
+        </symbol>
+
+        <!-- 5) BAILANDO (un brazo arriba, otro abajo) -->
+        <symbol id="f-dance" viewBox="-60 -10 120 145" overflow="visible">
+          <ellipse cx="0" cy="10" rx="5" ry="10" fill="currentColor" />
+          <path
+            fill="currentColor"
+            d="M0 25 C6 25, 10 35, 11 50 C13 68, 14 85, 0 85 C-14 85, -13 68, -11 50 C-10 35, -6 25, 0 25 Z"
+          />
+          <g
+            fill="none"
+            stroke="currentColor"
+            stroke-width="3"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polyline points="14,32 19,23 29,6 32,2" />
+            <polyline points="-14,32 -23,37 -40,47 -44,50" />
+            <polyline points="6,90 14,103 27,125" />
+            <polyline points="-6,90 -14,103 -27,125" />
+          </g>
+        </symbol>
+
+        <!-- 6) SALUDA (una mano arriba, otra relajada) -->
+        <symbol id="f-wave" viewBox="-50 -10 100 145" overflow="visible">
+          <ellipse cx="0" cy="10" rx="5" ry="10" fill="currentColor" />
+          <path
+            fill="currentColor"
+            d="M0 25 C6 25, 10 35, 11 50 C13 68, 14 85, 0 85 C-14 85, -13 68, -11 50 C-10 35, -6 25, 0 25 Z"
+          />
+          <g
+            fill="none"
+            stroke="currentColor"
+            stroke-width="3"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polyline points="14,32 16,22 19,2 20,-3" />
+            <polyline points="-14,32 -16,42 -19,62 -20,67" />
+            <polyline points="6,90 6,105 6,130" />
+            <polyline points="-6,90 -6,105 -6,130" />
+          </g>
+        </symbol>
+
+        <!-- 7) ACCIÓN: brazos asimétricos + rodilla en alto -->
+        <symbol id="f-action" viewBox="-50 -10 100 145" overflow="visible">
+          <ellipse cx="0" cy="10" rx="5" ry="10" fill="currentColor" />
+          <path
+            fill="currentColor"
+            d="M0 25 C6 25, 10 35, 11 50 C13 68, 14 85, 0 85 C-14 85, -13 68, -11 50 C-10 35, -6 25, 0 25 Z"
+          />
+          <g
+            fill="none"
+            stroke="currentColor"
+            stroke-width="3"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polyline points="14,32 23,27 33,10 35,6" />
+            <polyline points="-14,32 -24,32 -34,15 -36,11" />
+            <polyline points="6,90 21,90 21,115" />
+            <polyline points="-6,90 -6,105 -6,130" />
+          </g>
+        </symbol>
+
+        <!-- 8) ENCOGIMIENTO DE HOMBROS (codos arriba) -->
+        <symbol id="f-shrug" viewBox="-50 -2 100 140" overflow="visible">
+          <ellipse cx="0" cy="10" rx="5" ry="10" fill="currentColor" />
+          <path
+            fill="currentColor"
+            d="M0 25 C6 25, 10 35, 11 50 C13 68, 14 85, 0 85 C-14 85, -13 68, -11 50 C-10 35, -6 25, 0 25 Z"
+          />
+          <g
+            fill="none"
+            stroke="currentColor"
+            stroke-width="3"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polyline points="14,32 24,32 27,12 28,7" />
+            <polyline points="-14,32 -24,32 -27,12 -28,7" />
+            <polyline points="6,90 6,105 6,130" />
+            <polyline points="-6,90 -6,105 -6,130" />
+          </g>
+        </symbol>
+
+        <!-- 9) RELAJADO (manos cerca de las caderas, piernas separadas) -->
+        <symbol id="f-relax" viewBox="-50 -2 100 140" overflow="visible">
+          <ellipse cx="0" cy="10" rx="5" ry="10" fill="currentColor" />
+          <path
+            fill="currentColor"
+            d="M0 25 C6 25, 10 35, 11 50 C13 68, 14 85, 0 85 C-14 85, -13 68, -11 50 C-10 35, -6 25, 0 25 Z"
+          />
+          <g
+            fill="none"
+            stroke="currentColor"
+            stroke-width="3"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polyline points="14,32 17,41 7,58 5,62" />
+            <polyline points="-14,32 -17,41 -7,58 -5,62" />
+            <polyline points="6,90 10,104 16,128" />
+            <polyline points="-6,90 -10,104 -16,128" />
+          </g>
+        </symbol>
+
+        <!-- 10) CAMINATA DINÁMICA (un brazo arriba, otro horizontal) -->
+        <symbol id="f-walk2" viewBox="-50 -2 100 140" overflow="visible">
+          <ellipse cx="0" cy="10" rx="5" ry="10" fill="currentColor" />
+          <path
+            fill="currentColor"
+            d="M0 25 C6 25, 10 35, 11 50 C13 68, 14 85, 0 85 C-14 85, -13 68, -11 50 C-10 35, -6 25, 0 25 Z"
+          />
+          <g
+            fill="none"
+            stroke="currentColor"
+            stroke-width="3"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polyline points="14,32 23,35 33,18 35,14" />
+            <polyline points="-14,32 -24,30 -44,30 -49,30" />
+            <polyline points="6,90 12,104 14,129" />
+            <polyline points="-6,90 -9,105 -18,129" />
+          </g>
+        </symbol>
+
+        <!-- 11) ESTRELLA (jumping jack) -->
+        <symbol id="f-star" viewBox="-60 -10 120 145" overflow="visible">
+          <ellipse cx="0" cy="10" rx="5" ry="10" fill="currentColor" />
+          <path
+            fill="currentColor"
+            d="M0 25 C6 25, 10 35, 11 50 C13 68, 14 85, 0 85 C-14 85, -13 68, -11 50 C-10 35, -6 25, 0 25 Z"
+          />
+          <g
+            fill="none"
+            stroke="currentColor"
+            stroke-width="3"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polyline points="14,32 21,25 35,11 38.5,7.5" />
+            <polyline points="-14,32 -21,25 -35,11 -38.5,7.5" />
+            <polyline points="6,90 13.5,103 26,124.5" />
+            <polyline points="-6,90 -13.5,103 -26,124.5" />
+          </g>
+        </symbol>
+
+        <!-- 12) CHEER (NUEVA, reemplaza a 'still') :
+             brazo derecho doblado hacia arriba, brazo izquierdo lateral con codo arriba,
+             paso adelante con las piernas. Inspirada en tu segundo dibujo. -->
+        <symbol id="f-cheer" viewBox="-50 -10 100 145" overflow="visible">
+          <ellipse cx="0" cy="10" rx="5" ry="10" fill="currentColor" />
+          <path
+            fill="currentColor"
+            d="M0 25 C6 25, 10 35, 11 50 C13 68, 14 85, 0 85 C-14 85, -13 68, -11 50 C-10 35, -6 25, 0 25 Z"
+          />
+          <g
+            fill="none"
+            stroke="currentColor"
+            stroke-width="3"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polyline points="14,32 19,23.5 19,3.5 19,-1.5" />
+            <polyline points="-14,32 -24,32 -34,14.5 -36.5,10" />
+            <polyline points="6,90 12,104 14,129" />
+            <polyline points="-6,90 -9,105 -18,129" />
+          </g>
+        </symbol>
+
+        <!--
+          Patrón final del fondo (Opción B mejorada).
+          Tile 400 x 240 con las 12 poses (6 por fila).
+          Color/opacidad se controlan vía CSS (currentColor).
+        -->
+        <pattern
+          id="uomi-pattern"
+          width="400"
+          height="240"
+          patternUnits="userSpaceOnUse"
+        >
+          <use href="#f-stand"  x="10"  y="10"  width="46" height="105" />
+          <use href="#f-up"     x="70"  y="0"   width="46" height="115" />
+          <use href="#f-shrug"  x="135" y="10"  width="50" height="105" />
+          <use href="#f-relax"  x="200" y="10"  width="46" height="105" />
+          <use href="#f-cheer"  x="260" y="0"   width="50" height="115" />
+          <use href="#f-walk2"  x="325" y="10"  width="56" height="105" />
+
+          <use href="#f-walk"   x="10"  y="125" width="46" height="105" />
+          <use href="#f-dance"  x="70"  y="120" width="60" height="115" />
+          <use href="#f-out"    x="140" y="125" width="64" height="100" />
+          <use href="#f-wave"   x="220" y="120" width="46" height="115" />
+          <use href="#f-action" x="280" y="120" width="46" height="115" />
+          <use href="#f-star"   x="335" y="120" width="60" height="115" />
+        </pattern>
+      </defs>
+    </svg>
+
+    <div class="page-intro">
+      <h1>UOMI · Vista previa final del fondo</h1>
+      <p>
+        Cambié la pose "still" por una nueva pose tipo "celebración" (la que
+        marcaste). Además recalculé todas las poses con sin/cos para garantizar
+        que cada segmento mide exactamente lo que pediste (10, 20, 5 en brazo;
+        15, 25 en pierna). Si te gusta así, fusiono el patrón a la web.
+      </p>
+    </div>
+
+    <div class="figure-set">
+      <svg><use href="#f-stand" /></svg>
+      <svg><use href="#f-up" /></svg>
+      <svg><use href="#f-out" /></svg>
+      <svg><use href="#f-walk" /></svg>
+      <svg><use href="#f-dance" /></svg>
+      <svg><use href="#f-wave" /></svg>
+      <svg><use href="#f-action" /></svg>
+      <svg><use href="#f-shrug" /></svg>
+      <svg><use href="#f-relax" /></svg>
+      <svg><use href="#f-walk2" /></svg>
+      <svg><use href="#f-star" /></svg>
+      <svg><use href="#f-cheer" /></svg>
+      <p>12 poses (la 12ª, "cheer", reemplaza la antigua "still").</p>
+    </div>
+
+    <div class="preview">
+      <!-- HOME -->
+      <article class="site">
+        <div class="site-tab">Home (index.html)</div>
+        <header class="topbar">
+          <div class="nav">
+            <a href="#" class="brand">UOMI</a>
+            <nav>
+              <a href="#">Home</a>
+              <a href="#">Shop</a>
+              <a href="#">About</a>
+              <a href="#">Contact</a>
+            </nav>
+            <button class="cart-btn" aria-label="Carrito">
+              🛒<span class="cart-count">0</span>
+            </button>
+          </div>
+        </header>
+        <section class="page">
+          <div class="bg" aria-hidden="true">
+            <svg
+              viewBox="0 0 1120 360"
+              preserveAspectRatio="xMidYMid slice"
+              style="color: rgba(0, 0, 0, 0.085)"
+            >
+              <rect width="100%" height="100%" fill="url(#uomi-pattern)" />
+            </svg>
+          </div>
+          <div class="content">
+            <p class="kicker">UOMI Ceramic Art</p>
+            <h1>Cuadros cerámicos únicos para espacios contemporáneos.</h1>
+            <p class="lead">
+              Explora piezas tipo cuadro en cerámica, trabajadas a mano y listas
+              para coleccionar.
+            </p>
+            <a href="#" class="cta">Ver colección</a>
+          </div>
+        </section>
+        <footer class="site-foot">© UOMI. All rights reserved.</footer>
+      </article>
+
+      <!-- SHOP -->
+      <article class="site">
+        <div class="site-tab">Shop (shop.html)</div>
+        <header class="topbar">
+          <div class="nav">
+            <a href="#" class="brand">UOMI</a>
+            <nav>
+              <a href="#">Home</a>
+              <a href="#">Shop</a>
+              <a href="#">About</a>
+              <a href="#">Contact</a>
+            </nav>
+            <button class="cart-btn" aria-label="Carrito">
+              🛒<span class="cart-count">0</span>
+            </button>
+          </div>
+        </header>
+        <section class="page">
+          <div class="bg" aria-hidden="true">
+            <svg
+              viewBox="0 0 1120 360"
+              preserveAspectRatio="xMidYMid slice"
+              style="color: rgba(0, 0, 0, 0.07)"
+            >
+              <rect width="100%" height="100%" fill="url(#uomi-pattern)" />
+            </svg>
+          </div>
+          <div class="content">
+            <h2>Galería de cuadros cerámicos</h2>
+            <p class="lead">Ediciones limitadas, hechas a mano.</p>
+            <div class="grid">
+              <div class="card">
+                <div class="ph"></div>
+                <div class="card-body">
+                  <h3>Cuadro 01</h3>
+                  <p>Pieza única</p>
+                </div>
+              </div>
+              <div class="card">
+                <div class="ph"></div>
+                <div class="card-body">
+                  <h3>Cuadro 02</h3>
+                  <p>Pieza única</p>
+                </div>
+              </div>
+              <div class="card">
+                <div class="ph"></div>
+                <div class="card-body">
+                  <h3>Cuadro 03</h3>
+                  <p>Pieza única</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <footer class="site-foot">© UOMI. All rights reserved.</footer>
+      </article>
+
+      <!-- ABOUT -->
+      <article class="site">
+        <div class="site-tab">About (about.html)</div>
+        <header class="topbar">
+          <div class="nav">
+            <a href="#" class="brand">UOMI</a>
+            <nav>
+              <a href="#">Home</a>
+              <a href="#">Shop</a>
+              <a href="#">About</a>
+              <a href="#">Contact</a>
+            </nav>
+            <button class="cart-btn" aria-label="Carrito">
+              🛒<span class="cart-count">0</span>
+            </button>
+          </div>
+        </header>
+        <section class="page">
+          <div class="bg" aria-hidden="true">
+            <svg
+              viewBox="0 0 1120 360"
+              preserveAspectRatio="xMidYMid slice"
+              style="color: rgba(0, 0, 0, 0.085)"
+            >
+              <rect width="100%" height="100%" fill="url(#uomi-pattern)" />
+            </svg>
+          </div>
+          <div class="content">
+            <h2>About UOMI</h2>
+            <p class="lead">
+              UOMI crea cuadros cerámicos diseñados como composiciones de pared
+              y piezas coleccionables. Cada pieza se hace en lotes pequeños con
+              foco en textura, detalle y permanencia.
+            </p>
+          </div>
+        </section>
+        <footer class="site-foot">© UOMI. All rights reserved.</footer>
+      </article>
+
+      <!-- CONTACT -->
+      <article class="site">
+        <div class="site-tab">Contact (contact.html)</div>
+        <header class="topbar">
+          <div class="nav">
+            <a href="#" class="brand">UOMI</a>
+            <nav>
+              <a href="#">Home</a>
+              <a href="#">Shop</a>
+              <a href="#">About</a>
+              <a href="#">Contact</a>
+            </nav>
+            <button class="cart-btn" aria-label="Carrito">
+              🛒<span class="cart-count">0</span>
+            </button>
+          </div>
+        </header>
+        <section class="page">
+          <div class="bg" aria-hidden="true">
+            <svg
+              viewBox="0 0 1120 360"
+              preserveAspectRatio="xMidYMid slice"
+              style="color: rgba(0, 0, 0, 0.085)"
+            >
+              <rect width="100%" height="100%" fill="url(#uomi-pattern)" />
+            </svg>
+          </div>
+          <div class="content">
+            <h2>Contact &amp; Custom Orders</h2>
+            <p class="lead">
+              Escríbeme a
+              <a href="mailto:hello@uomi.com">hello@uomi.com</a> o sígueme en
+              Instagram <strong>@uomi</strong>.
+            </p>
+          </div>
+        </section>
+        <footer class="site-foot">© UOMI. All rights reserved.</footer>
+      </article>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UOMI | Shop</title>
+    <meta
+      name="description"
+      content="Shop handcrafted ceramic art pieces from UOMI."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Playfair+Display:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="shop-page">
+    <script src="figures.js"></script>
+    <div class="page-bg page-bg-pattern is-shop" aria-hidden="true">
+      <svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMin" width="100%" height="100%">
+        <rect width="100%" height="100%" fill="url(#uomi-pattern)" />
+      </svg>
+    </div>
+
+    <header class="topbar">
+      <div class="container nav">
+        <a href="index.html" class="brand">UOMI</a>
+        <nav>
+          <a href="index.html">Home</a>
+          <a href="shop.html">Shop</a>
+          <a href="about.html">About</a>
+          <a href="contact.html">Contact</a>
+        </nav>
+        <button class="cart-btn" id="cartButton" aria-label="Shopping cart">
+          <span class="cart-icon" aria-hidden="true">🛒</span>
+          <span class="cart-count" id="cartCount">0</span>
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <section class="container section" id="shop">
+        <div class="section-title-row">
+          <h2>Galeria de Cuadros Ceramicos</h2>
+          <p>Ediciones limitadas</p>
+        </div>
+        <div class="products" id="productGrid">
+          <article class="card">
+            <img
+              src="https://images.unsplash.com/photo-1610701596061-2ecf227e85b2?auto=format&fit=crop&w=700&q=80"
+              alt="Speckled ceramic mug"
+            />
+            <div class="card-body">
+              <h3>Speckled Mug</h3>
+              <p>12oz stoneware mug with satin ivory glaze.</p>
+              <div class="card-footer">
+                <span>$34</span>
+                <button class="add-to-cart" data-name="Speckled Mug">
+                  Add to cart
+                </button>
+              </div>
+            </div>
+          </article>
+
+          <article class="card">
+            <img
+              src="https://images.unsplash.com/photo-1612197529338-0b0c57f9f4de?auto=format&fit=crop&w=700&q=80"
+              alt="Hand-thrown serving bowl"
+            />
+            <div class="card-body">
+              <h3>Serving Bowl</h3>
+              <p>Wide rustic bowl perfect for salads and pasta.</p>
+              <div class="card-footer">
+                <span>$58</span>
+                <button class="add-to-cart" data-name="Serving Bowl">
+                  Add to cart
+                </button>
+              </div>
+            </div>
+          </article>
+
+          <article class="card">
+            <img
+              src="https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=700&q=80"
+              alt="Textured ceramic vase"
+            />
+            <div class="card-body">
+              <h3>Textured Vase</h3>
+              <p>Matte sand finish vase with carved detailing.</p>
+              <div class="card-footer">
+                <span>$72</span>
+                <button class="add-to-cart" data-name="Textured Vase">
+                  Add to cart
+                </button>
+              </div>
+            </div>
+          </article>
+
+          <article class="card">
+            <img
+              src="https://images.unsplash.com/photo-1543158015-04643d43f3d4?auto=format&fit=crop&w=700&q=80"
+              alt="Set of small planters"
+            />
+            <div class="card-body">
+              <h3>Mini Planter Set</h3>
+              <p>Set of 3 glazed planters for herbs or succulents.</p>
+              <div class="card-footer">
+                <span>$49</span>
+                <button class="add-to-cart" data-name="Mini Planter Set">
+                  Add to cart
+                </button>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <p>&copy; <span id="year"></span> UOMI. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>

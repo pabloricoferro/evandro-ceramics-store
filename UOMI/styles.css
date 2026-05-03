@@ -34,6 +34,53 @@ body {
   z-index: 10;
 }
 
+/* === Fondo de página (figuras UOMI) === */
+.page-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.page-bg svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.page-bg-pattern {
+  color: #000;
+  opacity: 0.085;
+}
+
+.page-bg-pattern.is-shop {
+  opacity: 0.07;
+}
+
+/* Figura gigante para la página Contact */
+.page-bg-contact {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.page-bg-contact svg {
+  width: auto;
+  height: 92vh;
+  max-width: 96vw;
+  color: #000;
+  opacity: 0.18;
+  filter: drop-shadow(0 24px 40px rgba(0, 0, 0, 0.18));
+}
+
+/* Aseguramos que el contenido vaya por encima del fondo fijo */
+main,
+.footer {
+  position: relative;
+  z-index: 1;
+}
+
 .nav {
   min-height: 72px;
   display: flex;
@@ -262,6 +309,48 @@ h1 {
 
 .contact a {
   color: #111;
+}
+
+/* === Página de Contact === */
+.contact-page main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 72px - 56px);
+  padding: 40px 20px;
+}
+
+.contact-card {
+  position: relative;
+  z-index: 2;
+  max-width: 480px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 36px 40px;
+  background: rgba(255, 255, 255, 0.86);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.08);
+  text-align: center;
+}
+
+.contact-card h2 {
+  font-size: 1.55rem;
+  margin-bottom: 12px;
+  letter-spacing: -0.01em;
+}
+
+.contact-card p {
+  margin: 8px 0;
+  color: var(--text);
+  font-size: 1.02rem;
+}
+
+.contact-card a {
+  color: #111;
+  font-weight: 600;
 }
 
 .footer {
