@@ -291,6 +291,23 @@ h1 {
   color: #111;
 }
 
+.shop-empty {
+  margin-top: 32px;
+  padding: 56px 28px;
+  border: 1px dashed var(--border);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  text-align: center;
+  color: var(--muted);
+  font-size: 1rem;
+}
+
+.shop-empty p {
+  margin: 0;
+}
+
 .about {
   background: #fafafa;
   border-top: 1px solid var(--border);
