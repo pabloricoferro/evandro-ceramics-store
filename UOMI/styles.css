@@ -339,22 +339,15 @@ h1 {
   filter: drop-shadow(0 18px 36px rgba(0, 0, 0, 0.14));
 }
 
-.about-anim-svg .anim-figure {
+.about-anim-svg .anim-figure-group {
   color: #111;
 }
 
-.about-anim-svg text {
-  font-family: Inter, "Helvetica Neue", Arial, sans-serif;
-  font-size: 110px;
-  font-weight: 800;
-  fill: #111;
-  letter-spacing: 0;
-  paint-order: stroke;
-}
-
-.anim-letter {
-  opacity: 0;
-}
+/* The .anim-part nodes are driven by JS via SVG attributes (transform,
+   points, cx, cy, rx, ry, d, stroke-width, fill-opacity, opacity). We
+   intentionally do NOT add CSS transforms here so we don't override the
+   default SVG transform-origin (top-left), which is what setAttribute()
+   uses. */
 
 .about-anim-hint {
   position: absolute;
@@ -380,12 +373,6 @@ h1 {
     top: 0;
     height: auto;
     padding: 60px 0;
-  }
-  .about-anim-svg .anim-figure {
-    display: none;
-  }
-  .anim-letter {
-    opacity: 1;
   }
   .about-anim-hint {
     display: none;

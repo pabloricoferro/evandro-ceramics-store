@@ -41,32 +41,58 @@
           <div class="about-anim-stage">
             <svg
               class="about-anim-svg"
-              viewBox="0 0 300 720"
+              viewBox="0 0 400 540"
               preserveAspectRatio="xMidYMid meet"
               aria-hidden="true"
             >
-              <!-- Figura completa: se desvanece a medida que las letras emergen -->
-              <g class="anim-figure">
-                <use href="#f-stand" x="100" y="70" width="100" height="140" />
-              </g>
+              <!--
+                One continuous motion: the same paths grow out of the figure.
+                After the cut, body-bottom / body-top / arms morph by blending
+                Bezier control points (no squash/flip scale). Legs blend into I.
+                Head ellipse blends into a vertical O. Only translate is used
+                for the O/U swap arc.
+              -->
+              <g class="anim-figure-group" transform="translate(200 85) scale(2.5)">
+                <path class="anim-part" data-part="body-full"
+                      d="M0,25 C5,25 10,34 10,40 C11,50 11,62 11,70 C8,82 4,86 0,86 C-4,86 -8,82 -11,70 C-11,62 -11,50 -10,40 C-10,34 -5,25 0,25 Z"
+                      fill="currentColor" stroke="currentColor" stroke-width="0"
+                      stroke-linecap="round" stroke-linejoin="round" />
 
-              <!-- Cada letra arranca en la posición de la parte del cuerpo que la genera
-                   (cabeza, torso superior, torso+brazos, pierna) y se desliza hacia su
-                   posición final apilada verticalmente formando UOMI. -->
-              <g class="anim-letter" data-from-y="92"  data-to-y="120" data-delay="0.06" data-duration="0.22">
-                <text x="0" y="0" text-anchor="middle" dominant-baseline="central">O</text>
-              </g>
-              <g class="anim-letter" data-from-y="125" data-to-y="280" data-delay="0.14" data-duration="0.26">
-                <text x="0" y="0" text-anchor="middle" dominant-baseline="central">U</text>
-              </g>
-              <g class="anim-letter" data-from-y="170" data-to-y="440" data-delay="0.22" data-duration="0.30">
-                <text x="0" y="0" text-anchor="middle" dominant-baseline="central">M</text>
-              </g>
-              <g class="anim-letter" data-from-y="200" data-to-y="600" data-delay="0.30" data-duration="0.34">
-                <text x="0" y="0" text-anchor="middle" dominant-baseline="central">I</text>
+                <path class="anim-part" data-part="body-top"
+                      d="M-10,40 C-10,34 -5,25 0,25 C5,25 10,34 10,40"
+                      fill="none" stroke="currentColor" stroke-width="0"
+                      stroke-linecap="round" stroke-linejoin="round" />
+
+                <path class="anim-part" data-part="body-bottom"
+                      d="M10,40 C11,50 11,62 11,70 C8,82 4,86 0,86 C-4,86 -8,82 -11,70 C-11,62 -11,50 -10,40"
+                      fill="none" stroke="currentColor" stroke-width="0"
+                      stroke-linecap="round" stroke-linejoin="round" />
+
+                <ellipse class="anim-part" data-part="head"
+                         cx="0" cy="10" rx="5" ry="10"
+                         fill="currentColor" stroke="currentColor" stroke-width="0"
+                         stroke-linecap="round" stroke-linejoin="round" />
+
+                <polyline class="anim-part" data-part="arm-left"
+                          points="-14,32 -16,42 -19,62 -20,67"
+                          fill="none" stroke="currentColor" stroke-width="3"
+                          stroke-linecap="round" stroke-linejoin="round" />
+                <polyline class="anim-part" data-part="arm-right"
+                          points="14,32 16,42 19,62 20,67"
+                          fill="none" stroke="currentColor" stroke-width="3"
+                          stroke-linecap="round" stroke-linejoin="round" />
+
+                <polyline class="anim-part" data-part="leg-left"
+                          points="-6,90 -6,105 -6,130"
+                          fill="none" stroke="currentColor" stroke-width="3"
+                          stroke-linecap="round" stroke-linejoin="round" />
+                <polyline class="anim-part" data-part="leg-right"
+                          points="6,90 6,105 6,130"
+                          fill="none" stroke="currentColor" stroke-width="3"
+                          stroke-linecap="round" stroke-linejoin="round" />
               </g>
             </svg>
-            <p class="about-anim-hint">Desliza hacia abajo</p>
+            <p class="about-anim-hint">Scroll down</p>
           </div>
         </div>
       </section>
