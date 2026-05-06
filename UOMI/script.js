@@ -221,9 +221,11 @@ if (yearEl) {
         strokeW,
         cx = 0;
       if (p < 0.22) {
+        /* Same timing as body-full: solid until p=0.08, then outline together 0.08→0.22 */
         const [a, b, t] = bracket(
           [
             { p: 0, cy: 10, rx: 5, ry: 10, f: 1, sw: 0 },
+            { p: 0.08, cy: 10, rx: 5, ry: 10, f: 1, sw: 0 },
             { p: 0.22, cy: 10, rx: 5, ry: 10, f: 0, sw: LIMB_STROKE },
           ],
           p
