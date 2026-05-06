@@ -337,6 +337,8 @@ if (yearEl) {
     passive: true,
     capture: true,
   });
+  window.addEventListener("touchmove", onScroll, { passive: true, capture: true });
+
   if (window.visualViewport) {
     window.visualViewport.addEventListener("scroll", onScroll, { passive: true });
     window.visualViewport.addEventListener("resize", update, { passive: true });
@@ -345,5 +347,74 @@ if (yearEl) {
     window.addEventListener("scrollend", onScroll, { passive: true });
   }
   window.addEventListener("resize", update);
+
+  const reduceMq =
+    window.matchMedia &&
+    window.matchMedia("(prefers-reduced-motion: reduce)");
+  let pollRaf = null;
+  let pollActive = false;
+
+  function pollTick() {
+    pollRaf = null;
+    if (!pollActive || !reduceMq.matches) return;
+    update();
+    pollRaf = window.requestAnimationFrame(pollTick);
+  }
+
+  function setPollActive(active) {
+    if (active === pollActive) return;
+    pollActive = active;
+    if (!active) {
+      if (pollRaf !== null) {
+        cancelAnimationFrame(pollRaf);
+        pollRaf = null;
+      }
+      update();
+      return;
+    }
+    if (reduceMq.matches && pollRaf === null) {
+      pollRaf = window.requestAnimationFrame(pollTick);
+    }
+  }
+
+  function sectionIsOnScreen() {
+    const r = section.getBoundingClientRect();
+    const vh =
+      (window.visualViewport && window.visualViewport.height) ||
+      window.innerHeight ||
+      document.documentElement.clientHeight;
+    return r.bottom > -32 && r.top < vh + 32;
+  }
+
+  function syncReducedMotionPoll() {
+    if (!reduceMq || !reduceMq.matches) {
+      setPollActive(false);
+      return;
+    }
+    setPollActive(sectionIsOnScreen());
+  }
+
+  if (reduceMq && typeof IntersectionObserver !== "undefined") {
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (!reduceMq.matches) return;
+        setPollActive(entries.some((e) => e.isIntersecting));
+      },
+      { root: null, threshold: 0, rootMargin: "40px 0px 40px 0px" }
+    );
+    io.observe(section);
+  }
+
+  const onReduceMotionMq = () => {
+    update();
+    syncReducedMotionPoll();
+  };
+  if (reduceMq?.addEventListener) {
+    reduceMq.addEventListener("change", onReduceMotionMq);
+  } else if (reduceMq?.addListener) {
+    reduceMq.addListener(onReduceMotionMq);
+  }
+  syncReducedMotionPoll();
+
   update();
 })();

@@ -383,6 +383,8 @@ h1 {
     transition: none;
   }
 }
+
+.about {
   background: #fafafa;
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
