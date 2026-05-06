@@ -58,7 +58,12 @@ body {
   opacity: 0.07;
 }
 
-/* Figura gigante para la página Contact */
+/* Figura gigante para la página Contact
+   Sin overflow:hidden aquí: el shadow y el pincho superior del óvalo quedan
+   dentro del viewBox; en escritorio 92vh + filter quedaba cortada la cabeza. */
+.page-bg.page-bg-contact {
+  overflow: visible;
+}
 .page-bg-contact {
   display: flex;
   align-items: center;
@@ -67,7 +72,7 @@ body {
 
 .page-bg-contact svg {
   width: auto;
-  height: 92vh;
+  height: min(94vh, 94dvh);
   max-width: 96vw;
   color: #000;
   opacity: 0.18;
