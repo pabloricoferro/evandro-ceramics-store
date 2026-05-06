@@ -311,7 +311,8 @@ h1 {
 /* === Animación de entrada en About (figura -> letras UOMI verticales) === */
 .about-anim {
   position: relative;
-  height: 220vh;
+  /* Shorter than 220vh: less scroll before morph / letters react (p advances faster). */
+  height: 155vh;
   background: #fff;
 }
 
