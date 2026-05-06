@@ -19,8 +19,28 @@
   <body class="contact-page">
     <script src="figures.js"></script>
     <div class="page-bg page-bg-contact" aria-hidden="true">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 140" preserveAspectRatio="xMidYMid meet">
-        <use href="#f-stand" x="0" y="0" width="100" height="140" />
+      <!-- Inline figure (same geometry as #f-stand) so the right arm can keyframe -->
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="-50 -2 100 140" preserveAspectRatio="xMidYMid meet">
+        <ellipse cx="0" cy="10" rx="5" ry="10" fill="currentColor" />
+        <path
+          fill="currentColor"
+          d="M0 25 C6 25, 10 35, 11 50 C13 68, 14 85, 0 85 C-14 85, -13 68, -11 50 C-10 35, -6 25, 0 25 Z"
+        />
+        <g
+          fill="none"
+          stroke="currentColor"
+          stroke-width="3"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <polyline points="-14,32 -16,42 -19,62 -20,67" />
+          <polyline
+            id="contactWaveRightArm"
+            points="14,32 16,42 19,62 20,67"
+          />
+          <polyline points="6,90 6,105 6,130" />
+          <polyline points="-6,90 -6,105 -6,130" />
+        </g>
       </svg>
     </div>
 

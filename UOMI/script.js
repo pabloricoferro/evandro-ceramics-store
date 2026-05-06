@@ -408,12 +408,12 @@ if (yearEl) {
   window.setTimeout(bounceUpdate, 120);
 })();
 
-/* Contact page: wave hello with background figure (same limbs as figures.js #f-wave). */
+/* Contact: right-arm wave — keyframes match figures.js proportions (shoulder ~14,32). */
 (function contactHeroWave() {
   if (!document.body.classList.contains("contact-page")) return;
 
-  const useEl = document.querySelector(".page-bg-contact use");
-  if (!useEl) return;
+  const arm = document.getElementById("contactWaveRightArm");
+  if (!arm) return;
 
   if (
     window.matchMedia &&
@@ -422,9 +422,30 @@ if (yearEl) {
     return;
   }
 
+  /* Frame 1…9 from storyboard (solo brazo der.); fotogramas 6–9 = alternancia 4/5. */
+  const F1 = "14,32 16,42 19,62 20,67";
+  const F2 = "14,32 24,32 38,32 52,32";
+  const F3 = "14,32 26,32 38,32 38,6";
+  const F4 = "14,32 26,32 38,32 22,10";
+  const F5 = "14,32 26,32 38,32 54,14";
+
+  /* Tras posición 9: 3 → 2 → 1 (una sola vez, tras DELAY_MS). */
+  const forwardThenReturn = [
+    F2,
+    F3,
+    F4,
+    F5,
+    F4,
+    F5,
+    F4,
+    F5,
+    F3,
+    F2,
+    F1,
+  ];
+
   const DELAY_MS = 2000;
-  const WAVE = "#f-wave";
-  const STAND = "#f-stand";
+  const STEP_MS = 130;
 
   let seqTimers = [];
 
@@ -435,23 +456,14 @@ if (yearEl) {
 
   function runWaveSequence() {
     clearSeq();
-    useEl.setAttribute("href", STAND);
-
-    const step = (href, offsetMs) => {
+    arm.setAttribute("points", F1);
+    forwardThenReturn.forEach((pts, i) => {
       seqTimers.push(
         window.setTimeout(() => {
-          useEl.setAttribute("href", href);
-        }, DELAY_MS + offsetMs)
+          arm.setAttribute("points", pts);
+        }, DELAY_MS + i * STEP_MS)
       );
-    };
-
-    /* Tres vaivenes: brazo arriba ↔ reposo (~400 ms / ciclo). */
-    step(WAVE, 0);
-    step(STAND, 380);
-    step(WAVE, 760);
-    step(STAND, 1140);
-    step(WAVE, 1520);
-    step(STAND, 1900);
+    });
   }
 
   runWaveSequence();
