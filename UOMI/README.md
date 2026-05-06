@@ -65,6 +65,7 @@ Then add your product image to the `images/` folder.
 See [STRIPE_SETUP.md](./STRIPE_SETUP.md) for complete instructions.
 
 **Quick version:**
+
 1. Create payment links in Stripe Dashboard
 2. Get the links (e.g., `https://buy.stripe.com/xxxxx`)
 3. Add to `products.js`
@@ -96,6 +97,7 @@ Automatically deploys to GitHub Pages on every push to `main` branch via GitHub 
 ## Why This Approach?
 
 **Perfect for curated, luxury ceramics:**
+
 - ✅ Each piece is unique and special
 - ✅ Single-item checkout maintains exclusivity
 - ✅ Zero security risk - Stripe owns all pricing
