@@ -344,6 +344,13 @@ h1 {
   color: #111;
 }
 
+/* Draw fill after stroke so a growing outline does not muddy the interior on
+   the small head ellipse before the body reads the same (matches body-full). */
+.about-anim-svg [data-part="head"],
+.about-anim-svg [data-part="body-full"] {
+  paint-order: stroke fill;
+}
+
 /* The .anim-part nodes are driven by JS via SVG attributes (transform,
    points, cx, cy, rx, ry, d, stroke-width, fill-opacity, opacity). We
    intentionally do NOT add CSS transforms here so we don't override the

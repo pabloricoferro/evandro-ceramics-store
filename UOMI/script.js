@@ -221,21 +221,14 @@ if (yearEl) {
         strokeW,
         cx = 0;
       if (p < 0.22) {
-        /* Same timing as body-full: solid until p=0.08, then outline together 0.08→0.22 */
-        const [a, b, t] = bracket(
-          [
-            { p: 0, cy: 10, rx: 5, ry: 10, f: 1, sw: 0 },
-            { p: 0.08, cy: 10, rx: 5, ry: 10, f: 1, sw: 0 },
-            { p: 0.22, cy: 10, rx: 5, ry: 10, f: 0, sw: LIMB_STROKE },
-          ],
-          p
-        );
+        /* Exact same fill/stroke ramp as body-full (fullKeyframes); geometry unchanged here. */
+        const [a, b, t] = bracket(fullKeyframes, p);
         const e = easeInOutCubic(t);
-        cy = lerp(a.cy, b.cy, e);
-        rx = lerp(a.rx, b.rx, e);
-        ry = lerp(a.ry, b.ry, e);
-        fillOp = lerp(a.f, b.f, e);
-        strokeW = lerp(a.sw, b.sw, e);
+        cy = 10;
+        rx = 5;
+        ry = 10;
+        fillOp = lerp(a.fillOp, b.fillOp, e);
+        strokeW = lerp(a.strokeW, b.strokeW, e);
       } else if (p < 0.55) {
         cy = 10;
         rx = 5;
