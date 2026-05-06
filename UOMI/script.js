@@ -426,8 +426,10 @@ if (yearEl) {
   const F1 = "14,32 16,42 19,62 20,67";
   const F2 = "14,32 24,32 44,32 49,32";
   const F3 = "14,32 24,32 24,12 24,7";
-  const F4 = "14,32 24,32 9.39,18.61 5.74,15.26";
-  const F5 = "14,32 24,32 38.61,18.61 42.26,15.26";
+  /* Arco del saludo: 40° entre 70° y 110° (desde horizontal, CCW en coords matemáticas;
+     en SVG el antebrazo va codo→muñeca con L2=20, L3=5). 110° = más hacia la cabeza. */
+  const F4 = "14,32 24,32 17.16,13.21 15.45,8.51";
+  const F5 = "14,32 24,32 30.84,13.21 32.55,8.51";
 
   const forwardThenReturn = [
     F2,
