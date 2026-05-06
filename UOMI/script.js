@@ -408,7 +408,8 @@ if (yearEl) {
   window.setTimeout(bounceUpdate, 120);
 })();
 
-/* Contact: right-arm wave — keyframes match figures.js proportions (shoulder ~14,32). */
+/* Contact: saludo — brazo der. con tramos 1 : 2 : 0.5 (hombro-codo : codo-muñeca : muñeca-mano),
+   misma escala que figures.js (F1 ≈ 10, 20, 5 u SVG). Secuencia 1→…→9 luego 3→2→1. */
 (function contactHeroWave() {
   if (!document.body.classList.contains("contact-page")) return;
 
@@ -422,14 +423,12 @@ if (yearEl) {
     return;
   }
 
-  /* Frame 1…9 from storyboard (solo brazo der.); fotogramas 6–9 = alternancia 4/5. */
   const F1 = "14,32 16,42 19,62 20,67";
-  const F2 = "14,32 24,32 38,32 52,32";
-  const F3 = "14,32 26,32 38,32 38,6";
-  const F4 = "14,32 26,32 38,32 22,10";
-  const F5 = "14,32 26,32 38,32 54,14";
+  const F2 = "14,32 24,32 44,32 49,32";
+  const F3 = "14,32 24,32 24,12 24,7";
+  const F4 = "14,32 24,32 9.39,18.61 5.74,15.26";
+  const F5 = "14,32 24,32 38.61,18.61 42.26,15.26";
 
-  /* Tras posición 9: 3 → 2 → 1 (una sola vez, tras DELAY_MS). */
   const forwardThenReturn = [
     F2,
     F3,
@@ -445,7 +444,7 @@ if (yearEl) {
   ];
 
   const DELAY_MS = 2000;
-  const STEP_MS = 130;
+  const STEP_MS = 260;
 
   let seqTimers = [];
 
