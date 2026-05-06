@@ -407,3 +407,62 @@ if (yearEl) {
   });
   window.setTimeout(bounceUpdate, 120);
 })();
+
+/* Contact page: wave hello with background figure (same limbs as figures.js #f-wave). */
+(function contactHeroWave() {
+  if (!document.body.classList.contains("contact-page")) return;
+
+  const useEl = document.querySelector(".page-bg-contact use");
+  if (!useEl) return;
+
+  if (
+    window.matchMedia &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  ) {
+    return;
+  }
+
+  const DELAY_MS = 2000;
+  const WAVE = "#f-wave";
+  const STAND = "#f-stand";
+
+  let seqTimers = [];
+
+  function clearSeq() {
+    seqTimers.forEach((id) => clearTimeout(id));
+    seqTimers = [];
+  }
+
+  function runWaveSequence() {
+    clearSeq();
+    useEl.setAttribute("href", STAND);
+
+    const step = (href, offsetMs) => {
+      seqTimers.push(
+        window.setTimeout(() => {
+          useEl.setAttribute("href", href);
+        }, DELAY_MS + offsetMs)
+      );
+    };
+
+    /* Tres vaivenes: brazo arriba ↔ reposo (~400 ms / ciclo). */
+    step(WAVE, 0);
+    step(STAND, 380);
+    step(WAVE, 760);
+    step(STAND, 1140);
+    step(WAVE, 1520);
+    step(STAND, 1900);
+  }
+
+  runWaveSequence();
+
+  window.addEventListener(
+    "pageshow",
+    (ev) => {
+      if (ev.persisted) {
+        runWaveSequence();
+      }
+    },
+    { passive: true }
+  );
+})();
