@@ -6,6 +6,8 @@
   --accent: #141414;
   --accent-dark: #000000;
   --border: #ededed;
+  /* Sticky header: .nav min-height 72px + 1px border */
+  --topbar-stack-height: 73px;
 }
 
 * {
@@ -59,21 +61,24 @@ body {
 }
 
 /* Figura gigante para la página Contact
-   Sin overflow:hidden aquí: el shadow y el pincho superior del óvalo quedan
-   dentro del viewBox; en escritorio 92vh + filter quedaba cortada la cabeza. */
+   El fondo debe empezar DEBAJO del topbar (z-index del header tapaba la cabeza).
+   overflow visible conserva el drop-shadow. */
 .page-bg.page-bg-contact {
   overflow: visible;
+  inset: var(--topbar-stack-height) 0 0 0;
 }
 .page-bg-contact {
   display: flex;
   align-items: center;
   justify-content: center;
+  box-sizing: border-box;
 }
 
 .page-bg-contact svg {
   width: auto;
-  height: min(94vh, 94dvh);
-  max-width: 96vw;
+  height: auto;
+  max-width: min(96vw, 100%);
+  max-height: 100%;
   color: #000;
   opacity: 0.18;
   filter: drop-shadow(0 24px 40px rgba(0, 0, 0, 0.18));
@@ -416,7 +421,7 @@ h1 {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: calc(100vh - 72px - 56px);
+  min-height: calc(100vh - var(--topbar-stack-height) - 56px);
   padding: 40px 20px;
 }
 
