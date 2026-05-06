@@ -36,11 +36,9 @@ if (yearEl) {
   const hint = section.querySelector(".about-anim-hint");
   if (!sticky) return;
 
-  const reduceMotion =
-    window.matchMedia &&
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (reduceMotion) return;
-
+  /* Same scroll-driven animation on all devices. prefers-reduced-motion only
+     tweaks CSS (e.g. hint transition); disabling JS here made phones with
+     Reduce Motion look "broken" vs desktop. */
   const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
   const lerp = (a, b, t) => a + (b - a) * t;
   const easeInOutCubic = (t) =>
@@ -334,7 +332,18 @@ if (yearEl) {
     });
   }
 
-  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("scroll", onScroll, { passive: true, capture: true });
+  document.documentElement.addEventListener("scroll", onScroll, {
+    passive: true,
+    capture: true,
+  });
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener("scroll", onScroll, { passive: true });
+    window.visualViewport.addEventListener("resize", update, { passive: true });
+  }
+  if ("onscrollend" in window) {
+    window.addEventListener("scrollend", onScroll, { passive: true });
+  }
   window.addEventListener("resize", update);
   update();
 })();

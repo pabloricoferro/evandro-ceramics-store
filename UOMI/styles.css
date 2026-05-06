@@ -313,14 +313,18 @@ h1 {
   position: relative;
   /* Shorter than 220vh: less scroll before morph / letters react (p advances faster). */
   height: 155vh;
+  height: 155dvh;
   background: #fff;
 }
 
 .about-anim-sticky {
+  position: -webkit-sticky;
   position: sticky;
   top: 72px;
   height: calc(100vh - 72px);
-  overflow: hidden;
+  height: calc(100dvh - 72px);
+  /* avoid overflow:hidden on sticky: breaks pinning / scroll sync on some mobile WebKit */
+  overflow: visible;
 }
 
 .about-anim-stage {
@@ -330,6 +334,7 @@ h1 {
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 }
 
 .about-anim-svg {
@@ -372,22 +377,12 @@ h1 {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .about-anim {
-    height: auto;
-    min-height: 60vh;
-  }
-  .about-anim-sticky {
-    position: relative;
-    top: 0;
-    height: auto;
-    padding: 60px 0;
-  }
+  /* Keep the same scroll extent and sticky layout as default so the figure ↔
+     UOMI animation still runs identically on phones with Reduce Motion. */
   .about-anim-hint {
-    display: none;
+    transition: none;
   }
 }
-
-.about {
   background: #fafafa;
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
