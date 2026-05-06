@@ -36,9 +36,8 @@ if (yearEl) {
   const hint = section.querySelector(".about-anim-hint");
   if (!sticky) return;
 
-  /* Scroll-linked morph: works across iOS Safari (incl. Reduce Motion) by
-     sampling every animation frame while the section is on screen, not only
-     on scroll events (those are throttled/coalesced on some mobile builds). */
+  /* Scroll-linked morph: setInterval + scroll/touch keeps p in sync on Safari
+     iOS with Reduce Motion, where rAF/throttled scroll events often break. */
   const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
   const lerp = (a, b, t) => a + (b - a) * t;
   const easeInOutCubic = (t) =>
@@ -179,7 +178,14 @@ if (yearEl) {
 
   function update() {
     const rect = section.getBoundingClientRect();
-    const range = Math.max(1, section.offsetHeight - sticky.offsetHeight);
+    let range = section.offsetHeight - sticky.offsetHeight;
+    if (!Number.isFinite(range) || range < 1) {
+      const sh =
+        sticky.offsetHeight || sticky.getBoundingClientRect().height || 0;
+      const bh =
+        section.offsetHeight || section.getBoundingClientRect().height || 0;
+      range = Math.max(1, bh - sh);
+    }
     const scrolled = -rect.top;
     const p = hasDebugP ? clamp(debugP, 0, 1) : clamp(scrolled / range, 0, 1);
 
@@ -323,75 +329,81 @@ if (yearEl) {
     }
   }
 
-  let rafLoopId = null;
+  let tickId = null;
 
-  function driveScrollAnim() {
-    rafLoopId = null;
-    if (document.visibilityState === "hidden") {
-      return;
-    }
-    update();
+  function armAboutTick() {
+    if (tickId !== null) return;
+    tickId = window.setInterval(() => {
+      if (document.hidden) return;
+      update();
+    }, 36);
+  }
 
-    const r = section.getBoundingClientRect();
-    const vh =
-      (window.visualViewport && window.visualViewport.height) ||
-      window.innerHeight ||
-      document.documentElement.clientHeight;
-    const margin = 120;
-    const inBand = r.bottom > -margin && r.top < vh + margin;
-
-    if (inBand) {
-      rafLoopId = window.requestAnimationFrame(driveScrollAnim);
+  function disarmAboutTick() {
+    if (tickId !== null) {
+      clearInterval(tickId);
+      tickId = null;
     }
   }
 
-  function kickScrollAnim() {
-    if (rafLoopId === null) {
-      rafLoopId = window.requestAnimationFrame(driveScrollAnim);
-    }
+  function bounceUpdate() {
+    if (!document.hidden) update();
   }
 
-  window.addEventListener("scroll", kickScrollAnim, { passive: true, capture: true });
-  document.documentElement.addEventListener("scroll", kickScrollAnim, {
+  window.addEventListener("scroll", bounceUpdate, { passive: true, capture: true });
+  document.documentElement.addEventListener("scroll", bounceUpdate, {
     passive: true,
     capture: true,
   });
-  window.addEventListener("touchmove", kickScrollAnim, { passive: true, capture: true });
-  window.addEventListener("touchend", kickScrollAnim, { passive: true, capture: true });
+  window.addEventListener("touchmove", bounceUpdate, { passive: true, capture: true });
+  window.addEventListener("touchend", bounceUpdate, { passive: true, capture: true });
 
   if (window.visualViewport) {
-    window.visualViewport.addEventListener("scroll", kickScrollAnim, { passive: true });
-    window.visualViewport.addEventListener("resize", () => {
-      update();
-      kickScrollAnim();
-    }, { passive: true });
+    window.visualViewport.addEventListener("scroll", bounceUpdate, { passive: true });
+    window.visualViewport.addEventListener(
+      "resize",
+      () => {
+        bounceUpdate();
+      },
+      { passive: true }
+    );
   }
   if ("onscrollend" in window) {
-    window.addEventListener("scrollend", kickScrollAnim, { passive: true });
+    window.addEventListener("scrollend", bounceUpdate, { passive: true });
   }
-  window.addEventListener("resize", () => {
-    update();
-    kickScrollAnim();
+  window.addEventListener("resize", bounceUpdate);
+
+  window.addEventListener("pageshow", () => {
+    if (!document.hidden) {
+      armAboutTick();
+      bounceUpdate();
+    }
   });
 
   document.addEventListener("visibilitychange", () => {
-    if (document.visibilityState === "visible") {
-      kickScrollAnim();
-    } else if (rafLoopId !== null) {
-      cancelAnimationFrame(rafLoopId);
-      rafLoopId = null;
+    if (document.hidden) {
+      disarmAboutTick();
+    } else {
+      armAboutTick();
+      bounceUpdate();
     }
   });
 
   if (typeof IntersectionObserver !== "undefined") {
     const io = new IntersectionObserver(
       () => {
-        kickScrollAnim();
+        bounceUpdate();
       },
-      { root: null, threshold: [0, 0.01, 1], rootMargin: "120px 0px 120px 0px" }
+      { threshold: [0, 0.01, 0.05, 1], rootMargin: "120px 0px 120px 0px" }
     );
     io.observe(section);
   }
 
-  kickScrollAnim();
+  /* Safari iOS + Reduce Motion often suppresses rAF; interval keeps scroll-driven morph in sync. */
+  armAboutTick();
+  bounceUpdate();
+  window.requestAnimationFrame(() => {
+    bounceUpdate();
+  });
+  window.setTimeout(bounceUpdate, 120);
 })();

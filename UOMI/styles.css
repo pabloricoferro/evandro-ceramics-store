@@ -323,6 +323,8 @@ h1 {
   top: 72px;
   height: calc(100vh - 72px);
   height: calc(100dvh - 72px);
+  /* Guard against zero usable height during iOS toolbar relayout / RM quirks */
+  min-height: 240px;
   /* avoid overflow:hidden on sticky: breaks pinning / scroll sync on some mobile WebKit */
   overflow: visible;
 }
