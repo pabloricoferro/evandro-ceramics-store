@@ -416,13 +416,6 @@ if (yearEl) {
   const arm = document.getElementById("contactWaveRightArm");
   if (!arm) return;
 
-  if (
-    window.matchMedia &&
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches
-  ) {
-    return;
-  }
-
   const F1 = "14,32 16,42 19,62 20,67";
   const F2 = "14,32 24,32 44,32 49,32";
   const F3 = "14,32 24,32 24,12 24,7";
